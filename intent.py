@@ -26,8 +26,7 @@ INTENTS = {
             r"\b(ipc|indian penal code|penal code)\b",
         ],
         "responses": [
-            "The Indian Penal Code (IPC) is the main criminal code of India, enacted in 1860. It covers all substantive aspects of criminal law.",
-            "The IPC defines crimes and their punishments. It has 511 sections covering offences from theft to murder."
+            "The Indian Penal Code (IPC) is the main criminal code of India, enacted in 1860. It covers all substantive aspects of criminal law. The IPC defines crimes and their punishments, containing 511 sections that cover offences from theft to murder."
         ]
     },
 
