@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 
 # Import your existing modules
-# from main import get_response   ← uncomment and adjust once you know the function name
+from main import get_response
 # from matcher import match_intent
 # from intent import get_intent
 
@@ -26,7 +26,7 @@ def chat():
     # response = get_response(user_message)
     # -------------------------------------------------------
     # Placeholder until integrated:
-    response = f"[Bot] Received: '{user_message}' — connect main.py logic here."
+    response = get_response(user_message)
 
     return jsonify({"response": response})
 

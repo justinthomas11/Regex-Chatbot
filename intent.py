@@ -3,7 +3,9 @@
 INTENTS = {
     "greeting": {
         "patterns": [
-            r"\b(hello|hi|hey|namaste|good morning|good evening)\b"
+            r"\b(hello|hi|hey|namaste)\b",
+            r"\bgood\s+(morning|evening|afternoon|day)\b",
+            r"(hey|hi|hello)\s+there",
         ],
         "responses": [
             "Hello! I can help you with questions about the Indian legal system.",
@@ -14,9 +16,14 @@ INTENTS = {
 
     "ipc": {
         "patterns": [
+            # specific first — full phrases
+            r"(what'?s?|define|explain|tell me about)\s+(the\s+)?i\.?p\.?c\.?",
+            r"(what'?s?|define|explain|tell me about)\s+(the\s+)?indian penal code",
+            r"(what'?s?|define|explain|tell me about)\s+(the\s+)?penal code",
+            # section-specific queries
+            r"(ipc|indian penal code)\s+section\s+\d+",
+            # broad fallback
             r"\b(ipc|indian penal code|penal code)\b",
-            r"what is ipc",
-            r"tell me about ipc"
         ],
         "responses": [
             "The Indian Penal Code (IPC) is the main criminal code of India, enacted in 1860. It covers all substantive aspects of criminal law.",
@@ -26,9 +33,12 @@ INTENTS = {
 
     "court_hierarchy": {
         "patterns": [
+            # specific structural queries first
+            r"how\s+(are|is)\s+(the\s+)?courts?\s+(structured|organized|arranged|set\s+up)",
+            r"(explain|describe|tell me about)\s+(the\s+)?court\s+(hierarchy|structure|system)",
+            r"which\s+(courts?)\s+(are\s+there|exist)\s+(in\s+)?india",
+            # broad fallback
             r"\b(court hierarchy|court structure|types of courts|judicial system)\b",
-            r"how (are|is) (the )?courts? (structured|organized|arranged)",
-            r"which (court|courts) (are there|exist) in india"
         ],
         "responses": [
             "India's court hierarchy from top to bottom: Supreme Court → High Courts (one per state) → District Courts → Sub-divisional Courts → Magistrate Courts."
@@ -37,9 +47,12 @@ INTENTS = {
 
     "supreme_court": {
         "patterns": [
-            r"\b(supreme court)\b",
-            r"highest court in india",
-            r"apex court"
+            # specific queries first
+            r"(what'?s?|tell me about|explain|describe)\s+(the\s+)?supreme court",
+            r"(highest|apex|top)\s+court\s+(in\s+)?india",
+            r"(role|function|jurisdiction|power)s?\s+of\s+(the\s+)?supreme court",
+            # broad fallback
+            r"\bsupreme\s+court\b",
         ],
         "responses": [
             "The Supreme Court of India is the highest judicial authority, located in New Delhi. It has original, appellate, and advisory jurisdiction.",
@@ -49,8 +62,14 @@ INTENTS = {
 
     "fir": {
         "patterns": [
+            # action-based queries first
+            r"how\s+(to|do\s+i|can\s+i)\s+(file|lodge|register)\s+(a\s+)?(complaint|case|fir)",
+            r"(steps?|process|procedure)\s+(to|for)\s+(file|filing|register|registering)\s+(a\s+)?fir",
+            r"(what\s+happens?|what\s+to\s+do)\s+(after|when)\s+(filing|registering)?\s*(a\s+)?fir",
+            # definition queries
+            r"(what'?s?|define|explain)\s+(a\s+|the\s+)?(fir|first information report)",
+            # broad fallback
             r"\b(fir|first information report)\b",
-            r"how to (file|lodge|register) a (complaint|case|fir)"
         ],
         "responses": [
             "An FIR (First Information Report) is filed at a police station to report a cognizable offence. It sets the criminal justice process in motion.",
@@ -60,9 +79,13 @@ INTENTS = {
 
     "fundamental_rights": {
         "patterns": [
-            r"\b(fundamental rights?)\b",
-            r"rights? (guaranteed|given|provided) by (the )?constitution",
-            r"part iii (of the constitution)?"
+            # specific queries first
+            r"(what are|list|explain|tell me about)\s+(the\s+)?fundamental rights?",
+            r"rights?\s+(guaranteed|given|provided)\s+by\s+(the\s+)?constitution",
+            r"(what is|explain)\s+part\s+iii\s+(of\s+(the\s+)?constitution)?",
+            r"how\s+many\s+fundamental\s+rights?\s+(are\s+there)?\s*(in\s+india)?",
+            # broad fallback
+            r"\bfundamental\s+rights?\b",
         ],
         "responses": [
             "The 6 Fundamental Rights in India (Part III of Constitution): Right to Equality, Right to Freedom, Right against Exploitation, Right to Freedom of Religion, Cultural/Educational Rights, Right to Constitutional Remedies."
@@ -71,9 +94,15 @@ INTENTS = {
 
     "bail": {
         "patterns": [
-            r"\b(bail)\b",
-            r"how (to get|do i get|can i get) bail",
-            r"types of bail"
+            # specific action queries first
+            r"how\s+(do\s+i|can\s+i|to)\s+(get|apply\s+for|obtain)\s+bail",
+            r"(types?|kinds?|forms?)\s+of\s+bail|bail\s+(types?|kinds?)",
+            r"(what is|explain|define)\s+(a\s+|the\s+)?bail",
+            r"(arrested|in\s+custody|in\s+jail).*(bail)",
+            r"(anticipatory|regular|interim)\s+bail",
+            r"bail\s+under\s+section\s+(437|438|439)",
+            # broad fallback
+            r"\bbail\b",
         ],
         "responses": [
             "Bail is conditional release of an arrested person. Types: Regular bail (Section 437/439 CrPC), Anticipatory bail (Section 438 CrPC), and Interim bail.",
@@ -83,10 +112,13 @@ INTENTS = {
 
     "article_21": {
         "patterns": [
-            r"\b(article 21)\b",
-            r"right to life",
-            r"right to (life|personal liberty)",
-            r"what is article 21"
+            # specific queries first
+            r"(what'?s?|explain|define|tell me about)\s+article\s*21",
+            r"right\s+to\s+(life|personal\s+liberty|privacy|dignity)",
+            r"article\s*21\s+(of\s+(the\s+)?constitution)?",
+            r"(deprive|violation).*(life|liberty)",
+            # broad fallback
+            r"\barticle\s*21\b",
         ],
         "responses": [
             "Article 21 of the Indian Constitution guarantees the Right to Life and Personal Liberty. No person can be deprived of their life or liberty except according to procedure established by law.",
@@ -96,10 +128,15 @@ INTENTS = {
 
     "legal_aid": {
         "patterns": [
-            r"\b(legal aid|free lawyer|free legal help)\b",
-            r"(can't|cannot|cant) afford (a )?lawyer",
-            r"right to (a )?lawyer",
-            r"how (do i|can i) get (a )?free lawyer"
+            # specific situation queries first
+            r"(can'?t|cannot|cant|don'?t)\s+(afford|pay\s+for)\s+(a\s+)?lawyer",
+            r"how\s+(do\s+i|can\s+i)\s+get\s+(a\s+)?free\s+lawyer",
+            r"(what is|explain|tell me about)\s+(legal\s+aid|free\s+legal\s+help)",
+            r"right\s+to\s+(a\s+)?lawyer",
+            r"(dlsa|district legal services)",
+            r"article\s*39\s*a",
+            # broad fallback
+            r"\b(legal\s+aid|free\s+lawyer|free\s+legal\s+help)\b",
         ],
         "responses": [
             "Under Article 39A of the Constitution, free legal aid is a fundamental right. If you cannot afford a lawyer, the state must provide one.",
@@ -109,10 +146,13 @@ INTENTS = {
 
     "cognizable_offences": {
         "patterns": [
-            r"\b(cognizable|non[\s-]?cognizable)\b",
-            r"(difference|distinguish) between cognizable and non[\s-]?cognizable",
-            r"what is a cognizable offence",
-            r"can police arrest without warrant"
+            # specific comparison queries first
+            r"(difference|distinguish|compare)\s+between\s+cognizable\s+and\s+non[\s\-]?cognizable",
+            r"(what is|explain|define)\s+(a\s+)?cognizable\s+offence",
+            r"can\s+police\s+(arrest|detain)\s+without\s+(a\s+)?warrant",
+            r"(arrest\s+without|warrantless)\s+arrest",
+            # broad fallback
+            r"\b(cognizable|non[\s\-]?cognizable)\b",
         ],
         "responses": [
             "A cognizable offence is one where police can arrest without a warrant — like murder, robbery, or rape. A non-cognizable offence requires a warrant for arrest — like cheating or defamation.",
@@ -122,10 +162,13 @@ INTENTS = {
 
     "high_court": {
         "patterns": [
-            r"\b(high court)\b",
-            r"what does (the )?high court do",
-            r"jurisdiction of high court",
-            r"how many high courts (are there )?(in india)?"
+            # specific queries first
+            r"(what does|role|function|jurisdiction|power)s?\s+(of\s+)?(the\s+)?high\s+court",
+            r"how\s+many\s+high\s+courts?\s+(are\s+there\s+)?(in\s+india)?",
+            r"(what'?s?|explain|tell me about)\s+(the\s+)?high\s+court",
+            r"(appeal|writ)\s+(to|in|at)\s+(the\s+)?high\s+court",
+            # broad fallback
+            r"\bhigh\s+court\b",
         ],
         "responses": [
             "India has 25 High Courts, one for each state or group of states. They have original, appellate, and supervisory jurisdiction over all courts within their territory.",
@@ -135,10 +178,13 @@ INTENTS = {
 
     "pocso": {
         "patterns": [
-            r"\b(pocso)\b",
-            r"protection of children from sexual offences",
-            r"child sexual (abuse|offence|assault)",
-            r"what is pocso"
+            # specific queries first
+            r"(what'?s?|explain|define|tell me about)\s+(the\s+)?pocso(\s+act)?",
+            r"protection\s+of\s+children\s+from\s+sexual\s+offences",
+            r"child\s+(sexual\s+)?(abuse|offence|assault|harassment)",
+            r"(law|act|protection)\s+(for|against)\s+(child|minor|children)",
+            # broad fallback
+            r"\bpocso\b",
         ],
         "responses": [
             "POCSO (Protection of Children from Sexual Offences Act, 2012) is a comprehensive law protecting children under 18 from sexual abuse, harassment, and exploitation.",
@@ -148,7 +194,9 @@ INTENTS = {
 
     "goodbye": {
         "patterns": [
-            r"\b(bye|goodbye|see you|exit|quit|thanks|thank you)\b"
+            r"\b(bye|goodbye|see\s+you|exit|quit)\b",
+            r"\b(thanks|thank\s+you|thank\s+u|thx)\b",
+            r"(that'?s?\s+all|i'?m\s+done|no\s+more\s+questions?)",
         ],
         "responses": [
             "Goodbye! Remember to always consult a qualified lawyer for specific legal advice.",
