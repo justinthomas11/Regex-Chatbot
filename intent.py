@@ -70,10 +70,6 @@ INTENTS = {
             r"(what'?s?|define|explain)\s+(a\s+|the\s+)?(fir|first information report)",
             # broad fallback
             r"\b(fir|first information report)\b",
-<<<<<<< HEAD
-=======
-            r"how to (file|lodge|register) a (complaint|case|fir)"
->>>>>>> a0ef156 (modify: added more intents)
         ],
         "responses": [
             "An FIR (First Information Report) is filed at a police station to report a cognizable offence. It sets the criminal justice process in motion.",
@@ -116,7 +112,6 @@ INTENTS = {
 
     "article_21": {
         "patterns": [
-<<<<<<< HEAD
             # specific queries first
             r"(what'?s?|explain|define|tell me about)\s+article\s*21",
             r"right\s+to\s+(life|personal\s+liberty|privacy|dignity)",
@@ -124,12 +119,6 @@ INTENTS = {
             r"(deprive|violation).*(life|liberty)",
             # broad fallback
             r"\barticle\s*21\b",
-=======
-            r"\b(article 21)\b",
-            r"right to life",
-            r"right to (life|personal liberty)",
-            r"what is article 21"
->>>>>>> a0ef156 (modify: added more intents)
         ],
         "responses": [
             "Article 21 of the Indian Constitution guarantees the Right to Life and Personal Liberty. No person can be deprived of their life or liberty except according to procedure established by law.",
@@ -139,7 +128,6 @@ INTENTS = {
 
     "legal_aid": {
         "patterns": [
-<<<<<<< HEAD
             # specific situation queries first
             r"(can'?t|cannot|cant|don'?t)\s+(afford|pay\s+for)\s+(a\s+)?lawyer",
             r"how\s+(do\s+i|can\s+i)\s+get\s+(a\s+)?free\s+lawyer",
@@ -149,12 +137,6 @@ INTENTS = {
             r"article\s*39\s*a",
             # broad fallback
             r"\b(legal\s+aid|free\s+lawyer|free\s+legal\s+help)\b",
-=======
-            r"\b(legal aid|free lawyer|free legal help)\b",
-            r"(can't|cannot|cant) afford (a )?lawyer",
-            r"right to (a )?lawyer",
-            r"how (do i|can i) get (a )?free lawyer"
->>>>>>> a0ef156 (modify: added more intents)
         ],
         "responses": [
             "Under Article 39A of the Constitution, free legal aid is a fundamental right. If you cannot afford a lawyer, the state must provide one.",
@@ -164,7 +146,6 @@ INTENTS = {
 
     "cognizable_offences": {
         "patterns": [
-<<<<<<< HEAD
             # specific comparison queries first
             r"(difference|distinguish|compare)\s+between\s+cognizable\s+and\s+non[\s\-]?cognizable",
             r"(what is|explain|define)\s+(a\s+)?cognizable\s+offence",
@@ -172,12 +153,6 @@ INTENTS = {
             r"(arrest\s+without|warrantless)\s+arrest",
             # broad fallback
             r"\b(cognizable|non[\s\-]?cognizable)\b",
-=======
-            r"\b(cognizable|non[\s-]?cognizable)\b",
-            r"(difference|distinguish) between cognizable and non[\s-]?cognizable",
-            r"what is a cognizable offence",
-            r"can police arrest without warrant"
->>>>>>> a0ef156 (modify: added more intents)
         ],
         "responses": [
             "A cognizable offence is one where police can arrest without a warrant — like murder, robbery, or rape. A non-cognizable offence requires a warrant for arrest — like cheating or defamation.",
@@ -187,7 +162,6 @@ INTENTS = {
 
     "high_court": {
         "patterns": [
-<<<<<<< HEAD
             # specific queries first
             r"(what does|role|function|jurisdiction|power)s?\s+(of\s+)?(the\s+)?high\s+court",
             r"how\s+many\s+high\s+courts?\s+(are\s+there\s+)?(in\s+india)?",
@@ -195,12 +169,6 @@ INTENTS = {
             r"(appeal|writ)\s+(to|in|at)\s+(the\s+)?high\s+court",
             # broad fallback
             r"\bhigh\s+court\b",
-=======
-            r"\b(high court)\b",
-            r"what does (the )?high court do",
-            r"jurisdiction of high court",
-            r"how many high courts (are there )?(in india)?"
->>>>>>> a0ef156 (modify: added more intents)
         ],
         "responses": [
             "India has 25 High Courts, one for each state or group of states. They have original, appellate, and supervisory jurisdiction over all courts within their territory.",
@@ -210,7 +178,6 @@ INTENTS = {
 
     "pocso": {
         "patterns": [
-<<<<<<< HEAD
             # specific queries first
             r"(what'?s?|explain|define|tell me about)\s+(the\s+)?pocso(\s+act)?",
             r"protection\s+of\s+children\s+from\s+sexual\s+offences",
@@ -218,12 +185,6 @@ INTENTS = {
             r"(law|act|protection)\s+(for|against)\s+(child|minor|children)",
             # broad fallback
             r"\bpocso\b",
-=======
-            r"\b(pocso)\b",
-            r"protection of children from sexual offences",
-            r"child sexual (abuse|offence|assault)",
-            r"what is pocso"
->>>>>>> a0ef156 (modify: added more intents)
         ],
         "responses": [
             "POCSO (Protection of Children from Sexual Offences Act, 2012) is a comprehensive law protecting children under 18 from sexual abuse, harassment, and exploitation.",
