@@ -154,7 +154,191 @@ INTENTS = {
             "Goodbye! Remember to always consult a qualified lawyer for specific legal advice.",
             "Take care! This bot provides general information only, not legal advice."
         ]
-    }
+    },
+
+    "constitution_of_india": {
+    "patterns": [
+    r"(what'?s?|explain|define|tell me about)\s+(the\s+)?constitution\s+of\s+india",
+    r"indian\s+constitution",
+    r"\bconstitution\b"
+    ],
+    "responses": [
+    "The Constitution of India is the supreme law of the country. It came into force on 26 January 1950 and lays down the framework of governance and citizens' rights."
+    ]
+    },
+
+    "directive_principles": {
+    "patterns": [
+    r"(what'?s?|explain|define|tell me about)\s+(the\s+)?directive\s+principles",
+    r"directive\s+principles\s+of\s+state\s+policy",
+    r"\bdpsp\b"
+    ],
+    "responses": [
+    "Directive Principles of State Policy are guidelines in Part IV of the Constitution that direct the government to promote social and economic welfare."
+    ]
+    },
+
+    "fundamental_duties": {
+    "patterns": [
+    r"(what'?s?|explain|define|tell me about)\s+(the\s+)?fundamental\s+duties",
+    r"list\s+of\s+fundamental\s+duties",
+    r"\bfundamental\s+duties\b"
+    ],
+    "responses": [
+    "Fundamental Duties are listed in Article 51A of the Constitution. Citizens are expected to follow these duties to promote harmony and national integrity."
+    ]
+    },
+
+    "president_of_india": {
+    "patterns": [
+    r"(what'?s?|explain|tell me about)\s+(the\s+)?president\s+of\s+india",
+    r"role\s+of\s+(the\s+)?president",
+    r"\bpresident\s+of\s+india\b"
+    ],
+    "responses": [
+    "The President of India is the constitutional head of the country and acts on the advice of the Council of Ministers."
+    ]
+    },
+
+    "parliament": {
+    "patterns": [
+    r"(what'?s?|explain|tell me about)\s+(the\s+)?parliament",
+    r"indian\s+parliament",
+    r"\bparliament\b"
+    ],
+    "responses": [
+    "The Parliament of India consists of the President, Lok Sabha, and Rajya Sabha. It is responsible for making laws for the country."
+    ]
+    },
+
+    "lok_sabha": {
+    "patterns": [
+    r"(what'?s?|explain|tell me about)\s+(the\s+)?lok\s+sabha",
+    r"lower\s+house\s+of\s+parliament",
+    r"\blok\s+sabha\b"
+    ],
+    "responses": [
+    "Lok Sabha is the House of the People and the lower house of Parliament. Its members are directly elected by citizens."
+    ]
+    },
+
+    "rajya_sabha": {
+    "patterns": [
+    r"(what'?s?|explain|tell me about)\s+(the\s+)?rajya\s+sabha",
+    r"upper\s+house\s+of\s+parliament",
+    r"\brajya\s+sabha\b"
+    ],
+    "responses": [
+    "Rajya Sabha is the Council of States and the upper house of Parliament. Its members represent the states and union territories."
+    ]
+    },
+
+    "governor": {
+    "patterns": [
+    r"(what'?s?|explain|tell me about)\s+(the\s+)?governor",
+    r"role\s+of\s+(the\s+)?governor",
+    r"\bgovernor\b"
+    ],
+    "responses": [
+    "A Governor is the constitutional head of a state and acts on the advice of the state's Council of Ministers."
+    ]
+    },
+
+    "chief_minister": {
+    "patterns": [
+    r"(what'?s?|explain|tell me about)\s+(the\s+)?chief\s+minister",
+    r"role\s+of\s+(the\s+)?chief\s+minister",
+    r"\bchief\s+minister\b"
+    ],
+    "responses": [
+    "The Chief Minister is the head of the state government and exercises executive authority in the state."
+    ]
+    },
+
+    "writs": {
+    "patterns": [
+    r"(what'?s?|explain|define|tell me about)\s+writs?",
+    r"types\s+of\s+writs?",
+    r"\bwrits?\b"
+    ],
+    "responses": [
+    "The Constitution provides five writs: Habeas Corpus, Mandamus, Certiorari, Prohibition, and Quo Warranto for protecting legal and fundamental rights."
+    ]
+    },
+
+    "habeas_corpus": {
+    "patterns": [
+    r"(what'?s?|explain|define)\s+habeas\s+corpus",
+    r"\bhabeas\s+corpus\b"
+    ],
+    "responses": [
+    "Habeas Corpus means 'produce the body'. It is issued to bring a detained person before the court and protect against unlawful detention."
+    ]
+    },
+
+    "mandamus": {
+    "patterns": [
+    r"(what'?s?|explain|define)\s+mandamus",
+    r"\bmandamus\b"
+    ],
+    "responses": [
+    "Mandamus means 'we command'. It is issued by a court directing a public authority to perform its legal duty."
+    ]
+    },
+
+    "certiorari": {
+    "patterns": [
+    r"(what'?s?|explain|define)\s+certiorari",
+    r"\bcertiorari\b"
+    ],
+    "responses": [
+    "Certiorari is issued by a higher court to quash an order passed by a lower court or tribunal acting beyond its jurisdiction."
+    ]
+    },
+
+    "prohibition": {
+    "patterns": [
+    r"(what'?s?|explain|define)\s+prohibition",
+    r"writ\s+of\s+prohibition",
+    r"\bprohibition\b"
+    ],
+    "responses": [
+    "The writ of Prohibition is issued by a higher court to stop a lower court or tribunal from exceeding its jurisdiction."
+    ]
+    },
+
+    "quo_warranto": {
+    "patterns": [
+    r"(what'?s?|explain|define)\s+quo\s+warranto",
+    r"\bquo\s+warranto\b"
+    ],
+    "responses": [
+    "Quo Warranto means 'by what authority'. It is issued to question a person's legal right to hold a public office."
+    ]
+    },
+
+    "pil": {
+    "patterns": [
+    r"(what'?s?|explain|define)\s+(pil|public\s+interest\s+litigation)",
+    r"\bpil\b",
+    r"public\s+interest\s+litigation"
+    ],
+    "responses": [
+    "Public Interest Litigation (PIL) allows any person to approach the court to protect public interest and enforce legal rights of disadvantaged groups."
+    ]
+    },
+
+    "consumer_rights": {
+    "patterns": [
+    r"(what'?s?|explain|tell me about)\s+consumer\s+rights",
+    r"rights\s+of\s+consumers",
+    r"\bconsumer\s+rights\b"
+    ],
+    "responses": [
+    "Consumer rights include the right to safety, information, choice, representation, redressal, and consumer education under consumer protection laws."
+    ]
+    },
+
 }
 
 FALLBACK_RESPONSES = [
