@@ -1,0 +1,212 @@
+# Nyaya: Indian Legal Chatbot Presentation Guide
+
+This guide provides a structured outline, technical breakdown, and live demonstration checklist to help you present the **Nyaya Indian Legal Chatbot** project successfully.
+
+---
+
+## 1. Project Overview & Architecture
+
+### What is Nyaya?
+* **Type:** A rule-based Natural Language Processing (NLP) chatbot built in Python.
+* **Core Tech:** Regular Expressions (Regex) pattern matching and Flask-based responsive Web UI.
+* **Domain:** Indian Legal System (Constitutional Law, Criminal Procedure, IPC Sections, Consumer Rights, Cyber Law, and more).
+* **Context:** NLP Course Project, Christ University, Bangalore.
+
+### System Architecture Flow
+
+The chatbot follows a pipeline-based architecture, transforming raw user inputs into legal responses:
+
+```mermaid
+graph TD
+    A[User Input] --> B{Language Mode?}
+    B -- English --> C[preprocess.py]
+    B -- Tamil --> D[preprocess_tamil.py]
+    C --> E[matcher.py]
+    D --> F[matcher_tamil.py]
+    E --> G[intent.py Lookup]
+    F --> H[intent_tamil.py Lookup]
+    G --> I{Pattern Matches?}
+    H --> J{Pattern Matches?}
+    I -- Yes --> K[Select Random Intent Response]
+    I -- No --> L[Select Random Fallback Response]
+    J -- Yes --> M[Select Random Intent Response]
+    J -- No --> N[Select Random Fallback Response]
+    K --> O[Output to Console / Web UI]
+    L --> O
+    M --> O
+    N --> O
+```
+
+---
+
+## 2. Deep Dive: Core Logic & Code Breakdown
+
+### A. Preprocessing (`preprocess.py` & `preprocess_tamil.py`)
+Before running regex matches, the chatbot normalizes the raw user query. This step prevents punctuation or capitalization differences from breaking the pattern matching.
+
+```python
+# preprocess.py (English)
+def preprocess(text: str) -> str:
+    text = text.lower().strip()
+    text = re.sub(r'\s+', ' ', text)
+    # keep dots so abbreviations like 'i.p.c' or 'sec.' stay intact
+    text = re.sub(r"[^\w\s\.]", ' ', text)
+    return text
+```
+
+```python
+# preprocess_tamil.py (Tamil)
+def preprocess(text: str) -> str:
+    text = text.strip()
+    text = re.sub(r'\s+', ' ', text)
+    # Remove punctuation but preserve Tamil Unicode characters, digits, dots, and spaces
+    text = re.sub(r"[^\u0B80-\u0BFF\w\s\.]", ' ', text)
+    return text
+```
+
+> [!NOTE]
+> **Tamil Unicode Range:** The regex range `\u0B80-\u0BFF` specifically matches the Tamil block in Unicode. This ensures that Tamil letters are not stripped away by the punctuation filter.
+
+---
+
+### B. Intent Dictionaries (`intent.py` & `intent_tamil.py`)
+Intents are structured as dictionaries mapping an **Intent Key** to:
+1. `patterns`: A list of compile-ready regular expression patterns.
+2. `responses`: A list of potential text responses.
+
+#### Example (English - `ipc`):
+```python
+"ipc": {
+    "patterns": [
+        r"(what'?s?|define|explain|tell me about)\s+(the\s+)?i\.?p\.?c\.?",
+        r"(what'?s?|define|explain|tell me about)\s+(the\s+)?indian penal code",
+        r"(ipc|indian penal code)\s+section\s+\d+",
+        r"\b(ipc|indian penal code|penal code)\b",
+    ],
+    "responses": [
+        "The Indian Penal Code (IPC) is the main criminal code of India...",
+        "The IPC defines crimes and their punishments. It has 511 sections..."
+    ]
+}
+```
+
+#### Example (Tamil - `ipc`):
+```python
+"ipc": {
+    "patterns": [
+        r"(what/explain/tell me) (IPC)",
+        r"(என்ன|விளக்கு|விவரி|பற்றி சொல்)\s*(இந்திய\s*தண்டனை\s*சட்டம்|ஐ\.?பி\.?சி\.?)",
+        r"(இந்திய\s*தண்டனை\s*சட்டம்|ஐபிசி)\s*(என்றால்\s*என்ன|என்ன|பற்றி)",
+        r"(ஐபிசி|இந்திய\s*தண்டனை\s*சட்டம்)\s*பிரிவு\s*\d+",
+        r"(ஐபிசி|இந்திய\s*தண்டனை\s*சட்டம்|தண்டனை\s*சட்டம்)",
+    ],
+    "responses": [
+        "இந்திய தண்டனை சட்டம் (IPC) என்பது 1860 ஆம் ஆண்டு இயற்றப்பட்ட இந்தியாவின் முக்கிய குற்றவியல் சட்டமாகும்...",
+        "ஐபிசி குற்றங்களையும் அவற்றின் தண்டனைகளையும் வரையறுக்கிறது. இது 511 பிரிவுகளைக் கொண்டுள்ளது."
+    ]
+}
+```
+
+---
+
+### C. The Matching Engine (`matcher.py` & `matcher_tamil.py`)
+The matching engine loops through all intents sequentially, checking each pattern.
+
+```python
+def get_response(user_input: str) -> str:
+    cleaned = preprocess(user_input)
+
+    for intent_name, intent_data in INTENTS.items():
+        for pattern in intent_data["patterns"]:
+            if re.search(pattern, cleaned):
+                return random.choice(intent_data["responses"])
+
+    return random.choice(FALLBACK_RESPONSES)
+```
+
+> [!IMPORTANT]
+> **Priority Matching:** Because `re.search` evaluates patterns sequentially, **specific patterns must be defined before general fallback patterns**. For example, `(ipc|indian penal code)\s+section\s+\d+` is matched *before* the broad fallback keyword `\b(ipc)\b`.
+
+---
+
+## 3. Explaining the Tamil Implementation (`intent_tamil.py`)
+
+Adapting a regex chatbot to Tamil requires addressing several linguistic features:
+
+1. **Agglutination (Word Joining):** Tamil words often combine (e.g., `விண்ணப்பிப்பது` + `எப்படி` can become `எப்படி விண்ணப்பிப்பது`). Regexes use flexible whitespaces (`\s*`) instead of hardcoded spaces (`\s+`) to capture joint and disjoint spellings.
+2. **Inflections and Suffixes:** Suffixes are appended to nouns to indicate cases (like `-க்கு` for "to", `-உம்` for "and"). We use grouping and wildcards to ignore variable word endings.
+3. **Transliteration vs Translation:** Users often mix Tamil script with English acronyms. For example, the patterns for `RTI` match both the English characters `RTI`, the Tamil spelling `ஆர்டிஐ`, and the full Tamil translation `தகவல் அறியும் உரிமை சட்டம்`.
+4. **Console Encoding Fix:** In Windows command terminals, UTF-8 rendering of Tamil characters can fail. We resolve this in `main_tamil.py` by reconfiguring stdout/stdin:
+   ```python
+   import sys
+   sys.stdout.reconfigure(encoding='utf-8')
+   sys.stdin.reconfigure(encoding='utf-8')
+   ```
+
+---
+
+## 4. Steps to Run the Chatbot
+
+Here is a step-by-step walkthrough to get the chatbot running locally.
+
+### Prerequisites
+* Python 3.7 or higher installed on your computer.
+* Flask installed for the web UI (run `pip install Flask flask-cors`).
+
+### Command Line Interface (CLI) Mode
+To run the interactive CLI chatbot in your terminal:
+
+* **English CLI:**
+  ```bash
+  python main.py
+  ```
+* **Tamil CLI:**
+  ```bash
+  python main_tamil.py
+  ```
+
+### Web UI Interface Mode
+To run the beautiful, premium dark-themed web browser interface:
+
+* **English Web App:**
+  1. Start the Flask server:
+     ```bash
+     python app.py
+     ```
+  2. Open your browser and navigate to: `http://127.0.0.1:5000`
+
+* **Tamil Web App:**
+  1. Start the Flask server on a separate port:
+     ```bash
+     python app_tamil.py
+     ```
+  2. Open your browser and navigate to: `http://127.0.0.1:5001`
+
+---
+
+## 5. Live Demonstration Guide (All Cases)
+
+Use the following table during your presentation to demonstrate the chatbot's versatility and case handling:
+
+| Case # | Description | English Input Sample | Expected Response Target | Tamil Input Sample | Tamil Response Target |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **1** | **Greeting** | *"Hi there, good morning!"* | Welcome message. | *"வணக்கம் தோழா"* | வரவேற்பு மற்றும் உதவி செய்தி. |
+| **2** | **IPC Definition** | *"tell me about the indian penal code"* | Explains IPC (1860, substantive criminal law). | *"ஐபிசி என்றால் என்ன?"* | இந்திய தண்டனைச் சட்டத்தை விளக்குகிறது. |
+| **3** | **IPC Section Capture** | *"what is ipc section 302"* | Identifies the section numbers dynamically. | *"ஐபிசி பிரிவு 302 பற்றி சொல்"* | பிரிவு 302 ஐக் கண்டறிந்து பதிலளிக்கிறது. |
+| **4** | **Constitutional Law** | *"What is article 21 of the constitution?"* | Right to life and personal liberty. | *"பிரிவு 21 என்றால் என்ன?"* | உயிர்வாழும் உரிமை மற்றும் சுதந்திரத்தை விளக்குகிறது. |
+| **5** | **Action / How-to Query** | *"how can i file an fir"* | Steps to file at a police station (Sec 154 CrPC). | *"எப்படி எஃப்ஐஆர் பதிவு செய்வது?"* | காவல் நிலையத்தில் எஃப்ஐஆர் பதிவதற்கான வழிகள். |
+| **6** | **New Legal Topic: RTI** | *"how to submit an rti application"* | Explains PIO, ₹10 fee, 30-day timeline. | *"எப்படி ஆர்டிஐ விண்ணப்பிப்பது?"* | பொது தகவல் அதிகாரி, ₹10 கட்டணம் மற்றும் 30 நாட்கள் காலக்கெடுவை விளக்குகிறது. |
+| **7** | **New Legal Topic: Cyber Crime** | *"someone hacked my computer"* | Mentions IT Act, cybercrime.gov.in, helpline 1930. | *"என் கணினி ஹேக் செய்யப்பட்டுள்ளது"* | தகவல் தொழில்நுட்பச் சட்டம் மற்றும் சைபர் கிரைம் புகாரளிப்பதை விளக்குகிறது. |
+| **8** | **New Legal Topic: Cheque Bounce** | *"what happens if a cheque bounces"* | Sec 138 NI Act, legal notice in 30 days. | *"செக் பவுன்ஸ் ஆனால் என்ன செய்வது?"* | செக் ரிட்டர்ன் சட்டம் மற்றும் 30 நாட்களுக்குள் நோட்டீஸ் அனுப்புவதை விளக்குகிறது. |
+| **9** | **Fallback Handling** | *"can you cook a biryani recipe for me"* | Says topic is outside current knowledge base. | *"பிரியாணி செய்வது எப்படி?"* | இந்தத் தலைப்பு எனது எல்லைக்கு அப்பாற்பட்டது எனத் தெரிவிக்கிறது. |
+| **10** | **Goodbye** | *"thank you for the help, bye"* | Disclaimer (educational info only, seek lawyer). | *"நன்றி, போய் வருகிறேன்"* | சட்ட ஆலோசனைக்கு மாற்றாகாது என்ற எச்சரிக்கையுடன் விடைபெறுகிறது. |
+
+---
+
+## 6. Project Limitations (To Mention in Slides)
+* **Keyword Dependency:** Does not use neural word embeddings (like BERT/GPT); it depends on patterns matching user terminology.
+* **No Dialog History:** Each turn is processed independently without session-based memory.
+* **First-match Win:** If a query hits multiple patterns, only the first matched intent in the dictionary order responds.
+
+---
+*Good luck with your presentation!*
